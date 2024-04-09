@@ -1,22 +1,22 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import codes from './codes.json' assert { type: 'json' };
 
+dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 3000; //---> elige un puerto de la variable de entrono global o el 3000
-const allowedOrigins = [`http://localhost:${PORT}`]
+const allowedOrigins = [`http://localhost:${PORT}`, 'http://localhost:5173'];
 
-app.use(cors({origin: `http://localhost:${PORT}`, credentials: true}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) { res.setHeader('Access-Control-Allow-Origin'), origin }
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-});
-app.options('*', (res) => { res.sendStatus(200)});
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+  }));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
 //<--- CORS ERAseg proxy server ---->//
 app.post('/api/interoperabilidad/GetEPSPersonaMSS', async (req, res) => {
@@ -57,7 +57,6 @@ app.get('/nuevaeps/proxy/*', async(req, res) => {
         res.status(500).send('error in the NuevaEPS proxy auth');
     }
 })
-
 
 //<---- Execute the listen port for the server ---->//
 app.listen(PORT, () => {
