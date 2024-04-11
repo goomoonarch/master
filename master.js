@@ -13,7 +13,7 @@ app.use(cors({
     origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Upgrade-Insecure-Requests']
   }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
