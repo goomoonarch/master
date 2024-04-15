@@ -25,9 +25,9 @@ app.post('/api/interoperabilidad/GetEPSPersonaMSS', async (req, res) => {
         regHeaders.append('Content-Type', 'application/json');
         const regraw = JSON.stringify(req.body);
         const regrequestOptions = { method: 'POST', headers: regHeaders, body: regraw, redirect: 'follow' }
-        const response = await fetch('https://paiwebservices.paiweb.gov.co:8081/api/interoperabilidad/GetEPSPersonaMSS', regrequestOptions );
+        const response = await fetch('https://paiwebservices.paiweb.gov.co:8081/api/interoperabilidad/GetEPSPersonaMSS', regrequestOptions, { timeout: 8000 } );
         const result = await response.json();
-        res.send(result);
+        res.status(200).send(result);
     } catch (e) {
         console.error(e);
         res.status(500).send(e, 'error in the CORS proxy server');
@@ -51,7 +51,7 @@ app.get('/nuevaeps/proxy/*', async(req, res) => {
           };
         const response = await fetch(targetURL, nueavarequestOptions);
         const result = await response.text();
-        res.send(result);
+        res.status(200).send(result);
     } catch (e) {
         console.error(e);
         res.status(500).send('error in the NuevaEPS proxy auth');
