@@ -59,6 +59,8 @@ app.get('/nuevaeps/proxy/*', async(req, res) => {
 })
 
 //<---- Execute the listen port for the server ---->//
-app.listen(PORT, () => {
-    console.log(`Proxy server running on http://localhost:${PORT}`)
+const server = app.listen(PORT, () => {
+    const address = server.address();
+    const host = address.address === '::' ? 'localhost' : address.address;
+    console.log(`Proxy server running on https:${host}:${PORT}`);
 })
