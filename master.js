@@ -7,7 +7,6 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000; //---> elige un puerto de la variable de entrono global o el 3000
-const HOST = process.env.HOST || 'localhost'; //----> elige la url de producción en la nube o de desarrollo en local
 const allowedOrigins = [`http://localhost:${PORT}`, 'http://localhost:5173', 'https://goomoonarch.github.io'];
 
 app.use(cors({
@@ -58,11 +57,13 @@ app.get('/nuevaeps/proxy/*', async(req, res) => {
         res.status(500).send('error in the NuevaEPS proxy auth');
     }
 })
+//<----- Home response tester ----->//
+app.get('/', (req, res) => {
+    res.send('Master server Online!')
+    console.log('the server is online!')
+  })
 
 //<---- Execute the listen port for the server ---->//
 app.listen(PORT, () => {
-    //const host = address.address === '::' ? 'localhost' : address.address;
-    //console.log(`Proxy server running on https://${host}:${PORT}`);
-    const BASE_URL = process.env.PUBLIC_URL || `http://${HOST}:${PORT}`;
-    console.log(`Servidor ejecutándose en ${BASE_URL}`);
+    console.log(`Proxy server running on port:${PORT}`);
 })
