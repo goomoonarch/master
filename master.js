@@ -30,7 +30,7 @@ app.post('/api/interoperabilidad/GetEPSPersonaMSS', async (req, res) => {
         res.send(result);
     } catch (e) {
         console.error(e);
-        res.status(500).send('error in the CORS proxy server');
+        res.status(500).send(e, 'error in the CORS proxy server');
     };
 });
 
