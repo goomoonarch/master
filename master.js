@@ -7,6 +7,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000; //---> elige un puerto de la variable de entrono global o el 3000
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 const allowedOrigins = [`http://localhost:${PORT}`, 'http://localhost:5173', 'https://goomoonarch.github.io'];
 
 app.use(cors({
@@ -65,5 +66,7 @@ app.get('/', (req, res) => {
 
 //<---- Execute the listen port for the server ---->//
 app.listen(PORT, () => {
-    console.log(`Proxy server running on port:${PORT}`);
+    console.log(`Proxy server running on ${BASE_URL}`);
+    console.log(`Access CORS ERAseg proxy endpoint at: ${BASE_URL}/api/interoperabilidad/GetEPSPersonaMSS`);
+    console.log(`Access Nueva EPS Eraseg Authenticator proxy at: ${BASE_URL}/nuevaeps/proxy/*`);
 })
