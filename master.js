@@ -7,7 +7,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000; //---> elige un puerto de la variable de entrono global o el 3000
-const allowedOrigins = [`http://localhost:${PORT}`, 'http://localhost:5173', 'https://goomoonarch.github.io'];
+const allowedOrigins = [`http://localhost:${PORT}`, 'http://localhost:5174', 'https://goomoonarch.github.io'];
 
 app.use(cors({
     origin: allowedOrigins,
