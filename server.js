@@ -3,7 +3,7 @@ const proxy = require('express-http-proxy');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 // Configura CORS para permitir solicitudes desde tu dominio
 app.use(cors({
@@ -26,6 +26,6 @@ app.use('/api', proxy('https://paiwebservices.paiweb.gov.co:8081', {
 }));
 
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en el puerto:${PORT}`);
 });
 
