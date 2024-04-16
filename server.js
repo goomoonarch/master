@@ -3,12 +3,12 @@ const proxy = require('express-http-proxy');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
-// Configura CORS para permitir solicitudes desde tu dominio
+// Configura CORS para permitir solicitudes desde cualquier dominio con varios métodos
 app.use(cors({
-    origin: 'https://goomoonarch.github.io', // Permite solicitudes solo desde este dominio
-    methods: ['POST'], // Métodos permitidos
+    origin: 'https://goomoonarch.github.io', // Permite todas las origin
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'OPTIONS', 'HEAD'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
@@ -25,7 +25,18 @@ app.use('/api', proxy('https://paiwebservices.paiweb.gov.co:8081', {
   }
 }));
 
+// Middleware para modificar las respuestas del proxy
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
+    }
+    next();
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto:${PORT}`);
 });
-
